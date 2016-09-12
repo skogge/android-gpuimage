@@ -306,8 +306,8 @@ public class GPUImage {
                 mRenderer.isFlippedHorizontally(), mRenderer.isFlippedVertically());
         renderer.setScaleType(mScaleType);
         PixelBuffer buffer = new PixelBuffer(bitmap.getWidth(), bitmap.getHeight());
-        buffer.setRenderer(renderer);
         renderer.setImageBitmap(bitmap, false);
+        buffer.setRenderer(renderer);
         Bitmap result = buffer.getBitmap();
         mFilter.destroy();
         renderer.deleteImage();
