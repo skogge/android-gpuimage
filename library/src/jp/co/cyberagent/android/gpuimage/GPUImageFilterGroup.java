@@ -183,7 +183,8 @@ public class GPUImageFilterGroup extends GPUImageFilter {
     public void onDraw(final int textureId, final FloatBuffer cubeBuffer,
                        final FloatBuffer textureBuffer) {
         runPendingOnDrawTasks();
-        if (!isInitialized() || mFrameBuffers == null || mFrameBufferTextures == null) {
+        int[] frameBufferTextures = mFrameBufferTextures;
+        if (!isInitialized() || mFrameBuffers == null || frameBufferTextures == null) {
             return;
         }
         if (mMergedFilters != null) {
@@ -207,7 +208,7 @@ public class GPUImageFilterGroup extends GPUImageFilter {
 
                 if (isNotLast) {
                     GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
-                    previousTexture = mFrameBufferTextures[i];
+                    previousTexture = frameBufferTextures[i];
                 }
             }
         }
