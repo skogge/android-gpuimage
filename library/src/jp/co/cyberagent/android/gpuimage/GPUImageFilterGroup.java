@@ -178,23 +178,26 @@ public class GPUImageFilterGroup extends GPUImageFilter {
      * @see jp.co.cyberagent.android.gpuimage.GPUImageFilter#onDraw(int,
      * java.nio.FloatBuffer, java.nio.FloatBuffer)
      */
-    @SuppressLint("WrongCall")    
+    @SuppressLint("WrongCall")
     @Override
     public void onDraw(final int textureId, final FloatBuffer cubeBuffer,
                        final FloatBuffer textureBuffer) {
         runPendingOnDrawTasks();
         int[] frameBufferTextures = mFrameBufferTextures;
-        if (!isInitialized() || mFrameBuffers == null || frameBufferTextures == null) {
+        int[] frameBuffers = mFrameBuffers;
+        if (!isInitialized() || frameBuffers == null || frameBufferTextures == null) {
             return;
         }
-        if (mMergedFilters != null) {
-            int size = mMergedFilters.size();
+
+        List<GPUImageFilter> mergedFilters = mMergedFilters;
+        if (mergedFilters != null) {
+            int size = mergedFilters.size();
             int previousTexture = textureId;
             for (int i = 0; i < size; i++) {
-                GPUImageFilter filter = mMergedFilters.get(i);
+                GPUImageFilter filter = mergedFilters.get(i);
                 boolean isNotLast = i < size - 1;
                 if (isNotLast) {
-                    GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, mFrameBuffers[i]);
+                    GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, frameBuffers[i]);
                     GLES20.glClearColor(0, 0, 0, 0);
                 }
 
